@@ -19,7 +19,6 @@ class PokemonClientTest {
     @Test
     void getPokemonDetails() {
         PokemonDetailsResponseBody pokemonDetails = pokemonClient.getPokemonDetails("mewtwo");
-        System.out.println(pokemonDetails);
         assertEquals("mewtwo", pokemonDetails.getName());
     }
 }
