@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import static com.michaeladonis.pokedox.config.Constants.GET_POKEMON_V2;
 
 @Component
-public class PokemonClient {
+public class PokemonClient extends BaseClient {
 
     private final WebClient webClient;
 
@@ -16,6 +16,8 @@ public class PokemonClient {
     }
 
     public PokemonDetailsResponseBody getPokemonDetails(String pokemonName) {
-        return webClient.get().uri(GET_POKEMON_V2, pokemonName).retrieve().bodyToMono(PokemonDetailsResponseBody.class).block();
+        WebClient.ResponseSpec responseSpec = webClient.get().uri(GET_POKEMON_V2, pokemonName).retrieve();
+        return handleRequest(responseSpec).bodyToMono(PokemonDetailsResponseBody.class).block();
     }
+
 }

@@ -1,7 +1,9 @@
 package com.michaeladonis.pokedox.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class PokemoneDetailsResponse {
     private String habitat;

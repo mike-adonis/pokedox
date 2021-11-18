@@ -30,7 +30,7 @@ public class DataResponse<M> {
     }
 
     public static DataResponse getErrorResponse(Exception exception) {
-        return new DataResponse(false,exception.getMessage());
+        return new DataResponse(false, exception.getLocalizedMessage());
     }
 
 }

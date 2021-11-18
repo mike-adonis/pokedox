@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static com.michaeladonis.pokedox.dtos.DataResponse.*;
@@ -14,7 +15,7 @@ import static com.michaeladonis.pokedox.dtos.DataResponse.*;
 @ControllerAdvice
 public class ExceptionManager extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler({NotFoundException.class, WebClientResponseException.NotFound.class})
     public ResponseEntity<DataResponse> handleNotFoundException(NotFoundException exception) {
         ResponseEntity<DataResponse> response = new ResponseEntity<>(getErrorResponse(exception), HttpStatus.NOT_FOUND);
         return response;
