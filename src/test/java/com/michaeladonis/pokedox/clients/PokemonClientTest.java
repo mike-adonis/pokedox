@@ -1,7 +1,6 @@
 package com.michaeladonis.pokedox.clients;
 
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
-import com.michaeladonis.pokedox.dtos.PokemonDetailsResponseBody;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ class PokemonClientTest {
     private PokemonClient pokemonClient;
 
     @Test
-    void getPokemonDetails() {
+    void  givenPokemonNam_ifResponseMatchesRequest_thenSuccess() {
         PokemonDetailsResponse pokemonDetails = pokemonClient.getPokemonData("mewtwo");
         assertEquals("mewtwo", pokemonDetails.getName());
     }

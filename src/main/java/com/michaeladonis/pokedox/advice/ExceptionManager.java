@@ -17,21 +17,25 @@ public class ExceptionManager extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({NotFoundException.class, WebClientResponseException.NotFound.class})
     public ResponseEntity<DataResponse> handleNotFoundException(NotFoundException exception) {
-        ResponseEntity<DataResponse> response = new ResponseEntity<>(getErrorResponse(exception), HttpStatus.NOT_FOUND);
-        return response;
+        return new ResponseEntity<>(getErrorResponse(exception), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<DataResponse> handleValidationException(ValidationException exception) {
-        ResponseEntity<DataResponse> response = new ResponseEntity<>(getErrorResponse(exception), HttpStatus.BAD_REQUEST);
-        return response;
+        return new ResponseEntity<>(getErrorResponse(exception), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<DataResponse> handleUnknownException(RuntimeException exception) {
         exception.printStackTrace();
-        ResponseEntity<DataResponse> response = new ResponseEntity<>(new DataResponse(false, "An Error occurred"), HttpStatus.INTERNAL_SERVER_ERROR);
-        return response;
+        return new ResponseEntity<>(new DataResponse(false, "An Error occurred"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(WebClientResponseException.Forbidden.class)
+    public ResponseEntity<DataResponse> handleExternalServerException(RuntimeException exception) {
+        exception.printStackTrace();
+        return new ResponseEntity<>(new DataResponse(false, "A foreign server threw an error"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }
