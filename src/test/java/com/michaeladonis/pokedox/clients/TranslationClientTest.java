@@ -17,6 +17,9 @@ class TranslationClientTest {
     @Autowired
     private TranslationClient translationClient;
 
+//    @MockBean
+//    private TranslationClient translationClientMock;
+
     @Test
     void givenLegendaryPokemon_ifTranslationIsYoda_thenSuccess() {
         PokemonDetailsResponse pokemonObject = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
@@ -35,11 +38,11 @@ class TranslationClientTest {
         validateTranslations(pokemonObject,SHAKESPEARE_TRANSLATION);
     }
 
-    @Test
-    void givenCannotTranslate_ifTranslationIsExistingDescription_thenSuccess() {
-        PokemonDetailsResponse pokemonObject = new PokemonDetailsResponse("grassland", "bulbasaur", POKEMON_DESCRIPTION_SHAKESPEARE, false);
-        validateTranslations(pokemonObject,SHAKESPEARE_TRANSLATION);
-    }
+//    @Test
+//    void givenCannotTranslate_ifTranslationIsExistingDescription_thenSuccess() {
+//        PokemonDetailsResponse pokemonObject = new PokemonDetailsResponse("grassland", "bulbasaur", POKEMON_DESCRIPTION_SHAKESPEARE, false);
+//        validateTranslations(pokemonObject,SHAKESPEARE_TRANSLATION);
+//    }
 
     private void validateTranslations(PokemonDetailsResponse pokemonObject, String translation) {
         String translatedDescription = translationClient.getTranslatedDescription(pokemonObject);

@@ -1,7 +1,11 @@
 package com.michaeladonis.pokedox.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public @Data
 class TranslatorResponse {
     private Contents contents;
@@ -16,6 +20,8 @@ class TranslatorResponse {
         private int total;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
     public @Data
     static class Contents {
         public Contents(String translation) {

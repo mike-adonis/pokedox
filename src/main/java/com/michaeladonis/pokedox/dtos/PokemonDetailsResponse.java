@@ -14,7 +14,7 @@ public class PokemonDetailsResponse {
     public PokemonDetailsResponse(PokemonDetailsResponseBody responseBody) {
         initializeRequiredFields(responseBody);
         if (responseBody.getFlavor_text_entries() != null && !responseBody.getFlavor_text_entries().isEmpty()) {
-            this.description = responseBody.getFlavor_text_entries().get(0).getFlavor_text();
+            this.description = responseBody.getFlavor_text_entries().get(0).getFlavor_text().replace("\n", " ").replace("\f", " ");
         }
     }
 

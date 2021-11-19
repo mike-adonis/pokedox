@@ -18,19 +18,23 @@ public class TranslationClient extends BaseClient {
 
     public String getTranslatedDescription(PokemonDetailsResponse pokemonDetailsResponse) {
         TranslatorResponse translatorResponse = translate(pokemonDetailsResponse);
-        return translatorResponse.getContents().getTranslation();
+        return translatorResponse.getContents().getTranslated();
     }
 
     private TranslatorResponse translate(PokemonDetailsResponse pokemonDetails) {
-        WebClient.ResponseSpec responseSpec = webClient.get().uri(decideTranslation(pokemonDetails), pokemonDetails.getDescription()).retrieve();
-        return responseSpec.bodyToMono(TranslatorResponse.class).onErrorReturn(new TranslatorResponse(pokemonDetails.getDescription())).block();
+        WebClient.ResponseSpec responseSpec = webClient.get().
+                uri(uriBuilder ->
+                        uriBuilder.path(decideTranslation(pokemonDetails)).
+                                queryParam("text", pokemonDetails.getDescription())
+                                .build()).retrieve();
+        return responseSpec.bodyToMono(TranslatorResponse.class).block();
     }
 
     private String decideTranslation(PokemonDetailsResponse pokemonDetails) {
         if (pokemonDetails.getHabitat().equals("cave") || pokemonDetails.getIsLegendary()) {
-            return YODA;
+            return YODA.concat(".json");
         } else {
-            return SHAKESPEARE;
+            return SHAKESPEARE.concat(".json");
         }
     }
 
