@@ -1,9 +1,9 @@
 package com.michaeladonis.pokedox.controller;
 
 
-import com.michaeladonis.pokedox.dtos.PokemoneDetailsResponse;
+import com.michaeladonis.pokedox.dtos.DataResponse;
+import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.services.PokedoxService;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,9 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
-import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -36,19 +36,20 @@ class PokedoxControllerTest {
 
 
     @Test
-    @DisplayName("Test find pokemon by name")
-    void givenNamePokemon_ifNameMatches_thenSuccess() throws Exception {
+    @DisplayName("GET : Existing Pokemon")
+    void givenNamePokemon_ifNameExists_thenSuccess() throws Exception {
 
 //        Setup mock service
-        PokemoneDetailsResponse mockPokemonResponse = new PokemoneDetailsResponse("rare", "mewtwo", "Some nice description", true);
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", "Some nice description", true);
         doReturn(new ResponseEntity<>(mockPokemonResponse, HttpStatus.OK)).when(pokedoxService).getPokemonDetails("mewtwo");
 
         mockMvc.perform(get("/pokemon/{pokemonName}", "mewtwo"))
+
 //                check response code and content type
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 
-                //check response body
+//                check response body
                 .andExpect(jsonPath("$.name", is("mewtwo")))
                 .andExpect(jsonPath("$.habitat", is("rare")))
                 .andExpect(jsonPath("$.description", is("Some nice description")))
@@ -56,6 +57,18 @@ class PokedoxControllerTest {
     }
 
 
+    @Test
+    @DisplayName("GET : Non existent pokemon")
+    void givenNamePokemon_ifNameNotExist_thenFail() throws Exception {
+
+        String errorMessage = "Pokemon not found! 😥";
+
+        doReturn(new ResponseEntity<>(new DataResponse(false, errorMessage), HttpStatus.NOT_FOUND)).when(pokedoxService).getPokemonDetails("no-exist");
+        mockMvc.perform(get("/pokemon/{pokemonName}", "no-exist"))
+                .andExpect(status().isNotFound())
+
+                .andExpect(jsonPath("$.data", is(errorMessage)));
+    }
 
 
 }

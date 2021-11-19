@@ -1,8 +1,7 @@
-package com.michaeladonis.pokedox.client;
+package com.michaeladonis.pokedox.clients;
 
-import com.michaeladonis.pokedox.config.MessageHelperService;
 import com.michaeladonis.pokedox.exceptions.NotFoundException;
-import com.michaeladonis.pokedox.exceptions.PokemonServerException;
+import com.michaeladonis.pokedox.exceptions.ExternalServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -14,9 +13,9 @@ public class BaseClient {
     public WebClient.ResponseSpec handleRequest(WebClient.ResponseSpec responseSpec) {
         return responseSpec.
                 onStatus(httpStatus -> httpStatus.value() == HttpStatus.NOT_FOUND.value(),
-                        clientResponse -> Mono.error(new NotFoundException("Pokemon not found! 😥")))
+                        clientResponse -> Mono.error(new NotFoundException("Resource not found! 😥")))
                 .onStatus(httpStatus -> httpStatus.value() == HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        clientResponse -> Mono.error(new PokemonServerException()));
+                        clientResponse -> Mono.error(new ExternalServerException()));
 
     }
 }

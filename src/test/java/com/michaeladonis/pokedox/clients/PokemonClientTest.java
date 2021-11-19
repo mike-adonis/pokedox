@@ -1,5 +1,6 @@
-package com.michaeladonis.pokedox.client;
+package com.michaeladonis.pokedox.clients;
 
+import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponseBody;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +19,7 @@ class PokemonClientTest {
 
     @Test
     void getPokemonDetails() {
-        PokemonDetailsResponseBody pokemonDetails = pokemonClient.getPokemonDetails("mewtwo");
+        PokemonDetailsResponse pokemonDetails = pokemonClient.getPokemonData("mewtwo");
         assertEquals("mewtwo", pokemonDetails.getName());
     }
 }

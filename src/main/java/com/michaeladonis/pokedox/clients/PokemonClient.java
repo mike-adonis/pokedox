@@ -1,5 +1,6 @@
-package com.michaeladonis.pokedox.client;
+package com.michaeladonis.pokedox.clients;
 
+import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponseBody;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,9 +16,14 @@ public class PokemonClient extends BaseClient {
         this.webClient = webClientBuilder.baseUrl("https://pokeapi.co").build();
     }
 
-    public PokemonDetailsResponseBody getPokemonDetails(String pokemonName) {
+    private PokemonDetailsResponseBody fetchPokemonData(String pokemonName) {
         WebClient.ResponseSpec responseSpec = webClient.get().uri(GET_POKEMON_V2, pokemonName).retrieve();
         return handleRequest(responseSpec).bodyToMono(PokemonDetailsResponseBody.class).block();
+    }
+
+    public PokemonDetailsResponse getPokemonData(String pokemonName) {
+        PokemonDetailsResponseBody pokemonDetails = fetchPokemonData(pokemonName);
+        return new PokemonDetailsResponse(pokemonDetails);
     }
 
 }

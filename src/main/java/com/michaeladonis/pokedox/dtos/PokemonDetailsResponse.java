@@ -5,18 +5,22 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class PokemoneDetailsResponse {
+public class PokemonDetailsResponse {
     private String habitat;
     private String name;
     private String description;
     private Boolean isLegendary;
 
-    public PokemoneDetailsResponse(PokemonDetailsResponseBody responseBody) {
-        this.habitat = responseBody.getHabitat().getName();
-        this.name = responseBody.getName();
+    public PokemonDetailsResponse(PokemonDetailsResponseBody responseBody) {
+        initializeRequiredFields(responseBody);
         if (responseBody.getFlavor_text_entries() != null && !responseBody.getFlavor_text_entries().isEmpty()) {
             this.description = responseBody.getFlavor_text_entries().get(0).getFlavor_text();
         }
+    }
+
+    private void initializeRequiredFields(PokemonDetailsResponseBody responseBody) {
+        this.habitat = responseBody.getHabitat().getName();
+        this.name = responseBody.getName();
         this.isLegendary = responseBody.getIs_legendary();
     }
 }

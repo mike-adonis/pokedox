@@ -1,8 +1,8 @@
 package com.michaeladonis.pokedox.services.impls;
 
-import com.michaeladonis.pokedox.client.PokemonClient;
-import com.michaeladonis.pokedox.dtos.PokemonDetailsResponseBody;
-import com.michaeladonis.pokedox.dtos.PokemoneDetailsResponse;
+import com.michaeladonis.pokedox.clients.PokemonClient;
+import com.michaeladonis.pokedox.clients.TranslationClient;
+import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.services.BaseService;
 import com.michaeladonis.pokedox.services.PokedoxService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +17,22 @@ public class PokeDoxServiceImpl extends BaseService implements PokedoxService {
 
     private final PokemonClient pokemonClient;
 
+    private final TranslationClient translationClient;
+
     @Override
-    public ResponseEntity<PokemoneDetailsResponse> getPokemonDetails(String pokemonName) {
-        PokemonDetailsResponseBody pokemonDetails = pokemonClient.getPokemonDetails(pokemonName);
-        return new ResponseEntity<>(new PokemoneDetailsResponse(pokemonDetails), HttpStatus.OK);
+    public ResponseEntity<PokemonDetailsResponse> getPokemonDetails(String pokemonName) {
+        return new ResponseEntity<>(pokemonClient.getPokemonData(pokemonName), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<PokemonDetailsResponse> getTranslatedPokemonDetails(String pokemonName) {
+        PokemonDetailsResponse pokemonDetailsResponse = pokemonClient.getPokemonData(pokemonName);
+        String translation = translationClient.getTranslatedDescription(pokemonDetailsResponse);
+        pokemonDetailsResponse.setDescription(translation);
+        return new ResponseEntity<>(pokemonDetailsResponse, HttpStatus.OK);
+    }
+
+
+
+
 }

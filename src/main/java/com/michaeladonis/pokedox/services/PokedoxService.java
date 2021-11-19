@@ -1,9 +1,11 @@
 package com.michaeladonis.pokedox.services;
 
-import com.michaeladonis.pokedox.dtos.PokemoneDetailsResponse;
+import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import org.springframework.http.ResponseEntity;
 
 public interface PokedoxService {
 
-    ResponseEntity<PokemoneDetailsResponse> getPokemonDetails(String pokemonName);
+    ResponseEntity<PokemonDetailsResponse> getPokemonDetails(String pokemonName);
+
+    ResponseEntity<PokemonDetailsResponse> getTranslatedPokemonDetails(String pokemonName);
 }
