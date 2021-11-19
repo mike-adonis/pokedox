@@ -59,7 +59,7 @@ class PokedoxControllerTest {
 
     @Test
     @DisplayName("GET : Non existent pokemon")
-    void givenNamePokemon_ifNameNotExist_thenFail() throws Exception {
+    void givenNamePokemon_ifNameNotExist_thenNotFound() throws Exception {
 
         String errorMessage = "Pokemon not found! 😥";
 

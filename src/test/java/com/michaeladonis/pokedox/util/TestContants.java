@@ -1,4 +1,4 @@
-package com.michaeladonis.pokedox;
+package com.michaeladonis.pokedox.util;
 
 public class TestContants {
     public static final String POKEMON_DESCRIPTION = "It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.";
