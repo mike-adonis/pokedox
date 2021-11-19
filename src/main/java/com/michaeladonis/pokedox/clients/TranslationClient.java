@@ -27,7 +27,7 @@ public class TranslationClient extends BaseClient {
                         uriBuilder.path(decideTranslation(pokemonDetails)).
                                 queryParam("text", pokemonDetails.getDescription())
                                 .build()).retrieve();
-        return responseSpec.bodyToMono(TranslatorResponse.class).block();
+        return responseSpec.bodyToMono(TranslatorResponse.class).onErrorReturn(new TranslatorResponse(pokemonDetails.getDescription())).block();
     }
 
     private String decideTranslation(PokemonDetailsResponse pokemonDetails) {
