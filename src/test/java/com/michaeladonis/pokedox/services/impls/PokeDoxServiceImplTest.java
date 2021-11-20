@@ -10,11 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Optional;
-
+import static com.michaeladonis.pokedox.util.TestContants.POKEMON_DESCRIPTION;
+import static com.michaeladonis.pokedox.util.TestContants.YODA_TRANSLATION;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(SpringExtension.class)
@@ -32,18 +31,22 @@ class PokeDoxServiceImplTest {
     private PokemonClient pokemonClient;
 
     @Test
-    void getPokemonDetails() {
-
-        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", "I love ice cream how about thee", true);
-//        doReturn(Optional.of(mockPokemonResponse)).when(pokemonClient).getPokemonDetails("mewtwo");
-//        doReturn(Optional.of(mockPokemonResponse)).when(translationClient).translate(mockPokemonResponse);
-
+    void givenCorrectPokemonName_ifTranslationIsCorrect_thenSuccess() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
+        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo");
+        doReturn(YODA_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
         PokemonDetailsResponse response = pokedoxService.getTranslatedPokemonDetails("mewtwo").getBody();
-
         assert response != null;
-        Assertions.assertEquals(mockPokemonResponse.getDescription(),response.getDescription());
+        Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
+    }
 
-
-
+    @Test
+    void givenInCorrectPokemonName_ifTranslationIsCorrect_thenSuccess() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
+        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo-incorrect");
+        doReturn(YODA_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
+        PokemonDetailsResponse response = pokedoxService.getTranslatedPokemonDetails("mewtwo").getBody();
+        assert response != null;
+        Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
     }
 }

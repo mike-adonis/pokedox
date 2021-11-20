@@ -9,7 +9,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.michaeladonis.pokedox.util.TestContants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,13 +35,6 @@ class TranslationClientTest {
         assertMatchingTranslations(pokemonObject,SHAKESPEARE_TRANSLATION);
     }
 
-    @Test
-    void givenCannotTranslate_ifTranslationIsExistingDescription_thenSuccess() {
-//        doReturn(new ResponseEntity<>(mockPokemonResponse, HttpStatus.OK)).when(translationClientMock).("mewtwo");
-
-        PokemonDetailsResponse pokemonObject = new PokemonDetailsResponse("grassland", "bulbasaur", POKEMON_DESCRIPTION_SHAKESPEARE, false);
-        assertMatchingTranslations(null,SHAKESPEARE_TRANSLATION);
-    }
 
     private void assertMatchingTranslations(PokemonDetailsResponse pokemonObject, String translation) {
         String translatedDescription = translationClient.getTranslatedDescription(pokemonObject);

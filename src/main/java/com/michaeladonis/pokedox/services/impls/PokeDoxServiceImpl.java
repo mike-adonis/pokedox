@@ -32,7 +32,4 @@ public class PokeDoxServiceImpl extends BaseService implements PokedoxService {
         return new ResponseEntity<>(pokemonDetailsResponse, HttpStatus.OK);
     }
 
-
-
-
 }

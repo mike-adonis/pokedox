@@ -1,6 +1,7 @@
 package com.michaeladonis.pokedox.controller;
 
 
+import com.michaeladonis.pokedox.config.MessageHelperService;
 import com.michaeladonis.pokedox.dtos.DataResponse;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.services.PokedoxService;
@@ -34,10 +35,13 @@ class PokedoxControllerTest {
     @MockBean
     private PokedoxService pokedoxService;
 
+    @Autowired
+    private MessageHelperService messageHelperService;
+
 
     @Test
     @DisplayName("GET : Existing Pokemon")
-    void givenNamePokemon_ifNameExists_thenSuccess() throws Exception {
+    void givenPokemonName_ifNameExists_thenSucceed() throws Exception {
 
 //        Setup mock service
         PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", "Some nice description", true);
@@ -59,16 +63,23 @@ class PokedoxControllerTest {
 
     @Test
     @DisplayName("GET : Non existent pokemon")
-    void givenNamePokemon_ifNameNotExist_thenNotFound() throws Exception {
+    void givenPokemonName_ifNameNotExist_thenReturnNotFound() throws Exception {
 
-        String errorMessage = "Pokemon not found! 😥";
-
-        doReturn(new ResponseEntity<>(new DataResponse(false, errorMessage), HttpStatus.NOT_FOUND)).when(pokedoxService).getPokemonDetails("no-exist");
+        doReturn(new ResponseEntity<>(new DataResponse(false, messageHelperService.getMessage("pokemon.not.found")), HttpStatus.NOT_FOUND)).when(pokedoxService).getPokemonDetails("no-exist");
         mockMvc.perform(get("/pokemon/{pokemonName}", "no-exist"))
                 .andExpect(status().isNotFound())
-
-                .andExpect(jsonPath("$.data", is(errorMessage)));
+                .andExpect(jsonPath("$.data", is(messageHelperService.getMessage("pokemon.not.found"))));
     }
+
+//    @Test
+//    @DisplayName("GET : Non existent pokemon")
+//    void givenPokemonName_ifNameNotExist_thenNotFound() throws Exception {
+//
+//        doReturn(new ResponseEntity<>(new DataResponse(false, messageHelperService.getMessage("pokemon.not.found")), HttpStatus.NOT_FOUND)).when(pokedoxService).getPokemonDetails("no-exist");
+//        mockMvc.perform(get("/pokemon/{pokemonName}", "no-exist"))
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.data", is(messageHelperService.getMessage("pokemon.not.found"))));
+//    }
 
 
 }
