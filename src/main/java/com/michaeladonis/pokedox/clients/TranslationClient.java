@@ -5,7 +5,7 @@ import com.michaeladonis.pokedox.dtos.TranslatorResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import static com.michaeladonis.pokedox.config.Constants.*;
+import static com.michaeladonis.pokedox.services.chainprocessors.TranslationChain.decideTranslation;
 
 @Component
 public class TranslationClient extends BaseClient {
@@ -30,12 +30,6 @@ public class TranslationClient extends BaseClient {
         return responseSpec.bodyToMono(TranslatorResponse.class).onErrorReturn(new TranslatorResponse(pokemonDetails.getDescription())).block();
     }
 
-    private String decideTranslation(PokemonDetailsResponse pokemonDetails) {
-        if (pokemonDetails.getHabitat().equals("cave") || pokemonDetails.getIsLegendary()) {
-            return YODA.concat(".json");
-        } else {
-            return SHAKESPEARE.concat(".json");
-        }
-    }
+
 
 }
