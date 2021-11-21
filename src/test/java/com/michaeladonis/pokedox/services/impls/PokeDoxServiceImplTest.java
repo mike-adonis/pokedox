@@ -3,6 +3,7 @@ package com.michaeladonis.pokedox.services.impls;
 import com.michaeladonis.pokedox.clients.PokemonClient;
 import com.michaeladonis.pokedox.clients.TranslationClient;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
+import com.michaeladonis.pokedox.exceptions.NotFoundException;
 import com.michaeladonis.pokedox.services.PokedoxService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static com.michaeladonis.pokedox.util.TestContants.POKEMON_DESCRIPTION;
 import static com.michaeladonis.pokedox.util.TestContants.YODA_TRANSLATION;
-import static org.mockito.Mockito.doReturn;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -40,13 +45,8 @@ class PokeDoxServiceImplTest {
         Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
     }
 
-    @Test
-    void givenInCorrectPokemonName_ifTranslationIsCorrect_thenSuccess() {
-        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
-        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo-incorrect");
-        doReturn(YODA_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
-        PokemonDetailsResponse response = pokedoxService.getTranslatedPokemonDetails("mewtwo").getBody();
-        assert response != null;
-        Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
-    }
+//    @Test()
+//    void givenInCorrectPokemonName_ifNotFoundExceptionIsThrown_thenSucceed() {
+//        doThrow(new NotFoundException("Pokemon not found")).when(pokemonClient).getPokemonData("mewtwo-incorrect");
+//    }
 }
