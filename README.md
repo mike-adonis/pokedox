@@ -31,8 +31,8 @@ I would create an additional profile with variables for production, similar to t
 as _application-local.properties_
 
 **Chain of command pattern**
-The translation language decision is made using a chain of command pattern, I chose this approach because I considered
-that there could changes or additions to the business rules.
+The translation language decision is made using a _chain of command pattern_, I chose this approach because I considered
+that there could changes or additions to the business rules, this would make it easier to test and add new rules without breaking existing rules.
 
 **Api Documentation**
 the api Documentation can be found on the swagger link at http://localhost:5000/swagger-ui/
