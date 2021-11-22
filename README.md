@@ -11,7 +11,7 @@ find the _pom.xml_ file (this is in the root directory).
 
 **Containerization**
 
-This application is capable of containerizing itself without requiring docker file, but I have added a docker file just
+This application is capable of containerizing itself without requiring a docker file, but I have added a docker file just
 in case, I integrated a plugin called _jib_ that will build docker images locally or to a container registry.
 
 (Recommended) To build an image to your local docker daemon simply run the command _"mvn jib:dockerBuild"_ in the root
@@ -27,7 +27,7 @@ And Finally : "docker run -p 5000:5000 pokedox-application.jar"
 
 **Translation**
 The translation decision is made using a _chain of command pattern_, I chose this approach because I considered
-that there could be changes or additions to the business rules, this pattern makes it easier to test, extend without cascading if statements and modifying existing rules.
+that there could be changes or additions to the business rules in the future, this approach makes it easier to test, extend without cascading _if_ statements or modifying existing rules.
 
 **Api Documentation**
 the api Documentation can be found on the swagger link at http://localhost:5000/swagger-ui/
