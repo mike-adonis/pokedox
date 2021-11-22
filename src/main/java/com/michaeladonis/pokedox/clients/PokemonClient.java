@@ -12,12 +12,13 @@ import static com.michaeladonis.pokedox.config.Constants.V2_GET_POKEMON;
 @Component
 public class PokemonClient extends BaseClient {
 
+    private static final String BASEURL = "https://pokeapi.co";
     private final WebClient webClient;
 
     private final MessageHelperService messageHelperService;
 
     public PokemonClient(WebClient.Builder webClientBuilder, MessageHelperService messageHelperService) {
-        this.webClient = webClientBuilder.baseUrl("https://pokeapi.co").build();
+        this.webClient = webClientBuilder.baseUrl(BASEURL).build();
         this.messageHelperService = messageHelperService;
     }
 

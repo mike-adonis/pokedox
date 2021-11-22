@@ -11,8 +11,8 @@ find the _pom.xml_ file (this is in the root directory).
 
 **Containerization**
 
-This application is capable of containerizing itself without requiring a docker file, but I have added a docker file just
-in case, I integrated a plugin called _jib_ that will build docker images locally or to a container registry.
+This application is capable of containerizing itself without requiring a docker file, but I have added a docker file
+just in case, I integrated a plugin called _jib_ that will build docker images locally or to a container registry.
 
 (Recommended) To build an image to your local docker daemon simply run the command _"mvn jib:dockerBuild"_ in the root
 directory, on completion you'll have the image "true-layer-docker-registry/pokedox" ready to run.
@@ -26,8 +26,20 @@ Next run a docker build : "docker build -t pokedox-application.jar ."
 And Finally : "docker run -p 5000:5000 pokedox-application.jar"
 
 **Translation**
-The translation decision is made using a _chain of command pattern_, I chose this approach because I considered
-that there could be changes or additions to the business rules in the future, this approach makes it easier to test, extend without cascading _if_ statements or modifying existing rules.
+The translation decision is made using a _chain of command pattern_, I chose this approach because I considered that
+there could be changes or additions to the business rules in the future, this approach makes it easier to test, extend
+without cascading _if_ statements or modifying existing rules.
+
+**Retries**
+Retries are done twice, and it sufficiently caters for intermittent access denied exception.
+
+**Caching**
+All unique pokemon requests are cached to improve performance and evicted after a translation of the pokemon has been
+made to prevent returning a translated pokemon on a non translated endpoint
+
+
+**Testing**
+The application can be tested by running the _mvn test_ command in the project root directory (where the pom.xml resides). 
 
 **Api Documentation**
 the api Documentation can be found on the swagger link at http://localhost:5000/swagger-ui/

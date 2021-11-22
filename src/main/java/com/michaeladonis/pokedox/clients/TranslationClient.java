@@ -13,10 +13,11 @@ import static com.michaeladonis.pokedox.services.chainprocessors.TranslationChai
 @Component
 public class TranslationClient extends BaseClient {
 
+    private static final String BASEURL = "https://api.funtranslations.com";
     private final WebClient webClient;
 
     public TranslationClient(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://api.funtranslations.com").build();
+        this.webClient = webClientBuilder.baseUrl(BASEURL).build();
     }
 
     @CacheEvict(cacheNames = "pokemons", key = "#pokemonDetailsResponse.name")
