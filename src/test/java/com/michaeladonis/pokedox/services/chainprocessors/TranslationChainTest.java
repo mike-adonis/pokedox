@@ -14,16 +14,16 @@ class TranslationChainTest {
     @DisplayName("Test that Descriptions for Legend pokemons are in Yoda ")
     @Test
     void givenLegendaryPokemon_IfTranslationIsYoda_thenSuccess() {
-        PokemonDetailsResponse lengendPokemon = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
-        String translation = decideTranslation(lengendPokemon);
+        PokemonDetailsResponse legendPokemon = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
+        String translation = decideTranslation(legendPokemon);
         assertEquals(translation, YODA.concat(DOT_JSON));
     }
 
     @DisplayName("Test that Descriptions for Cave pokemons are in Yoda ")
     @Test
     void givenCavePokemon_IfTranslationIsYoda_thenSuccess() {
-        PokemonDetailsResponse lengendPokemon = new PokemonDetailsResponse("cave", "mewtwo", POKEMON_DESCRIPTION, false);
-        String translation = decideTranslation(lengendPokemon);
+        PokemonDetailsResponse legendPokemon = new PokemonDetailsResponse("cave", "mewtwo", POKEMON_DESCRIPTION, false);
+        String translation = decideTranslation(legendPokemon);
         assertEquals(translation, YODA.concat(DOT_JSON));
     }
 
