@@ -22,6 +22,7 @@ the full path of your remote registry and then run the command _"mvn jib:build"_
 the registry then the image will be built directly onto the registry.
 
 If you decide to use the docker file, please run a maven install in the root directory _"mvn install"_
+
 Next run a docker build : "docker build -t pokedox-application.jar ."
 And Finally : "docker run -p 5000:5000 pokedox-application.jar"
 
@@ -31,7 +32,7 @@ there could be changes or additions to the business rules in the future, this ap
 without cascading _if_ statements or modifying existing rules.
 
 **Retries**
-Retries are done twice, and it sufficiently caters for intermittent access denied exception.
+Retries are done twice, except the rate limit has been hit, this sufficiently caters for intermittent access denied exception .
 
 **Caching**
 All unique pokemon requests are cached to improve performance and evicted after a translation of the pokemon has been
