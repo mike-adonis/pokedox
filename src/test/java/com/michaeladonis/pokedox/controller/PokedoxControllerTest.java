@@ -5,7 +5,6 @@ import com.michaeladonis.pokedox.config.MessageHelperService;
 import com.michaeladonis.pokedox.dtos.DataResponse;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.services.PokedoxService;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.michaeladonis.pokedox.util.TestContants.SHAKESPEARE_TRANSLATION;
 import static com.michaeladonis.pokedox.util.TestContants.YODA_TRANSLATION;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
