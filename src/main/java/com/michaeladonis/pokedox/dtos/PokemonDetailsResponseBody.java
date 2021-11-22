@@ -15,6 +15,7 @@ class PokemonDetailsResponseBody {
     private Habitat habitat;
     private String name;
     private Integer id;
+
     @JsonAlias("is_legendary")
     private Boolean isLegendary;
 

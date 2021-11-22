@@ -2,6 +2,7 @@ package com.michaeladonis.pokedox.clients;
 
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
 import com.michaeladonis.pokedox.dtos.TranslatorResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,6 +18,7 @@ public class TranslationClient extends BaseClient {
         this.webClient = webClientBuilder.baseUrl("https://api.funtranslations.com").build();
     }
 
+    @Cacheable(cacheNames = "translations", key = "#pokemonDetailsResponse.name")
     public String getTranslatedDescription(PokemonDetailsResponse pokemonDetailsResponse) {
         TranslatorResponse translatorResponse = translate(pokemonDetailsResponse);
         return translatorResponse.getContents().getTranslated();
@@ -29,7 +31,7 @@ public class TranslationClient extends BaseClient {
                                 queryParam("text", pokemonDetails.getDescription())
                                 .build()).retrieve();
         return responseSpec.bodyToMono(TranslatorResponse.class)
-                .onErrorReturn(new TranslatorResponse(pokemonDetails.getDescription())).block();
+                .onErrorReturn(new TranslatorResponse(pokemonDetails.getDescription())).retry(2).block();
     }
 
 

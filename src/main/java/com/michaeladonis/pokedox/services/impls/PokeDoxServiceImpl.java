@@ -3,6 +3,7 @@ package com.michaeladonis.pokedox.services.impls;
 import com.michaeladonis.pokedox.clients.PokemonClient;
 import com.michaeladonis.pokedox.clients.TranslationClient;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
+import com.michaeladonis.pokedox.exceptions.ValidationException;
 import com.michaeladonis.pokedox.services.BaseService;
 import com.michaeladonis.pokedox.services.PokedoxService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +22,15 @@ public class PokeDoxServiceImpl extends BaseService implements PokedoxService {
 
     @Override
     public ResponseEntity<PokemonDetailsResponse> getPokemonDetails(String pokemonName) {
+        if (pokemonName == null || pokemonName.isEmpty())
+            throw new ValidationException("Please pass a valid Pokemon name");
         return new ResponseEntity<>(pokemonClient.getPokemonData(pokemonName), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<PokemonDetailsResponse> getTranslatedPokemonDetails(String pokemonName) {
+        if (pokemonName == null || pokemonName.isEmpty())
+            throw new ValidationException("Please pass a valid Pokemon name");
         PokemonDetailsResponse pokemonDetailsResponse = pokemonClient.getPokemonData(pokemonName);
         String translation = translationClient.getTranslatedDescription(pokemonDetailsResponse);
         pokemonDetailsResponse.setDescription(translation);
