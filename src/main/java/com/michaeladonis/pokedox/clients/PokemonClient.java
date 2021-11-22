@@ -6,7 +6,7 @@ import com.michaeladonis.pokedox.dtos.PokemonDetailsResponseBody;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import static com.michaeladonis.pokedox.config.Constants.GET_POKEMON_V2;
+import static com.michaeladonis.pokedox.config.Constants.V2_GET_POKEMON;
 
 @Component
 public class PokemonClient extends BaseClient {
@@ -21,7 +21,7 @@ public class PokemonClient extends BaseClient {
     }
 
     private PokemonDetailsResponseBody fetchPokemonData(String pokemonName) {
-        WebClient.ResponseSpec responseSpec = webClient.get().uri(GET_POKEMON_V2, pokemonName).retrieve();
+        WebClient.ResponseSpec responseSpec = webClient.get().uri(V2_GET_POKEMON, pokemonName).retrieve();
         return handleRequest(responseSpec, messageHelperService.getMessage("pokemon.not.found")).bodyToMono(PokemonDetailsResponseBody.class).block();
     }
 

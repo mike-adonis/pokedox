@@ -1,5 +1,6 @@
 package com.michaeladonis.pokedox.dtos;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,12 +15,17 @@ class PokemonDetailsResponseBody {
     private Habitat habitat;
     private String name;
     private Integer id;
-    private Boolean is_legendary;
-    private List<FlavorTextEntriesItem> flavor_text_entries;
+    @JsonAlias("is_legendary")
+    private Boolean isLegendary;
+
+    @JsonAlias("flavor_text_entries")
+    private List<FlavorTextEntriesItem> flavorTextEntriesItems;
 
     public @Data
     static class FlavorTextEntriesItem {
-        private String flavor_text;
+
+        @JsonAlias("flavor_text")
+        private String flavorText;
     }
 
     public @Data

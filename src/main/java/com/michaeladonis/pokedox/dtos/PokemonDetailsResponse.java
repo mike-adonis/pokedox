@@ -7,20 +7,27 @@ import lombok.Data;
 @Data
 public class PokemonDetailsResponse {
     private String habitat;
+
     private String name;
     private String description;
     private Boolean isLegendary;
 
     public PokemonDetailsResponse(PokemonDetailsResponseBody responseBody) {
         initializeRequiredFields(responseBody);
-        if (responseBody.getFlavor_text_entries() != null && !responseBody.getFlavor_text_entries().isEmpty()) {
-            this.description = responseBody.getFlavor_text_entries().get(0).getFlavor_text().replace("\n", " ").replace("\f", " ");
-        }
+        this.description = transformDescription(responseBody);
+    }
+
+    private String transformDescription(PokemonDetailsResponseBody responseBody) {
+        if (responseBody.getFlavorTextEntriesItems() != null && !responseBody.getFlavorTextEntriesItems().isEmpty()) {
+            return responseBody.getFlavorTextEntriesItems().get(0).getFlavorText() //get first item
+                    .replace("\n", " ")
+                    .replace("\f", " ");
+        }return "No description";
     }
 
     private void initializeRequiredFields(PokemonDetailsResponseBody responseBody) {
         this.habitat = responseBody.getHabitat().getName();
         this.name = responseBody.getName();
-        this.isLegendary = responseBody.getIs_legendary();
+        this.isLegendary = responseBody.getIsLegendary();
     }
 }

@@ -25,14 +25,9 @@ If you decide to use the docker file, please run a maven install in the root dir
 Next run a docker build : "docker build -t pokedox-application.jar ."
 And Finally : "docker run -p 5000:5000 pokedox-application.jar"
 
-**Things I would do differently for production**
-
-I would create an additional profile with variables for production, similar to the local profile that currently exist
-as _application-local.properties_
-
-**Chain of command pattern**
-The translation language decision is made using a _chain of command pattern_, I chose this approach because I considered
-that there could changes or additions to the business rules, this would make it easier to test and add new rules without breaking existing rules.
+**Translation**
+The translation decision is made using a _chain of command pattern_, I chose this approach because I considered
+that there could be changes or additions to the business rules, this pattern makes it easier to test, extend without cascading if statements and modifying existing rules.
 
 **Api Documentation**
 the api Documentation can be found on the swagger link at http://localhost:5000/swagger-ui/

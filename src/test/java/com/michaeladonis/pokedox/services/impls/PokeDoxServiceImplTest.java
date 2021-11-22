@@ -3,45 +3,66 @@ package com.michaeladonis.pokedox.services.impls;
 import com.michaeladonis.pokedox.clients.PokemonClient;
 import com.michaeladonis.pokedox.clients.TranslationClient;
 import com.michaeladonis.pokedox.dtos.PokemonDetailsResponse;
-import com.michaeladonis.pokedox.services.PokedoxService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.michaeladonis.pokedox.util.TestContants.POKEMON_DESCRIPTION;
-import static com.michaeladonis.pokedox.util.TestContants.YODA_TRANSLATION;
+import static com.michaeladonis.pokedox.util.TestContants.*;
 import static org.mockito.Mockito.doReturn;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class PokeDoxServiceImplTest {
 
+    @InjectMocks
+    private PokeDoxServiceImpl pokeDoxService;
 
-    @Autowired
-    private PokedoxService pokedoxService;
-
-    @MockBean
+    @Mock
     private TranslationClient translationClient;
 
-    @MockBean
+    @Mock
     private PokemonClient pokemonClient;
 
     @Test
-    void givenCorrectPokemonName_ifTranslationIsCorrect_thenSuccess() {
-        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
+    void givenCavePokemonName_ifTranslationIsYoda_thenSucceed() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("cave", "mewtwo", POKEMON_DESCRIPTION, false);
         doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo");
         doReturn(YODA_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
-        PokemonDetailsResponse response = pokedoxService.getTranslatedPokemonDetails("mewtwo").getBody();
+        PokemonDetailsResponse response = pokeDoxService.getTranslatedPokemonDetails("mewtwo").getBody();
         assert response != null;
         Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
     }
 
-//    @Test()
-//    void givenInCorrectPokemonName_ifNotFoundExceptionIsThrown_thenSucceed() {
-//        doThrow(new NotFoundException("Pokemon not found")).when(pokemonClient).getPokemonData("mewtwo-incorrect");
-//    }
+    @Test
+    void givenLegendaryPokemonName_ifTranslationIsYoda_thenSucceed() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, true);
+        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo");
+        doReturn(YODA_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
+        PokemonDetailsResponse response = pokeDoxService.getTranslatedPokemonDetails("mewtwo").getBody();
+        assert response != null;
+        Assertions.assertEquals(YODA_TRANSLATION, response.getDescription());
+    }
+
+    @Test
+    void givenRegularPokemonName_ifTranslationIsShakespearean_thenSucceed() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, false);
+        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo");
+        doReturn(SHAKESPEARE_TRANSLATION).when(translationClient).getTranslatedDescription(mockPokemonResponse);
+        PokemonDetailsResponse response = pokeDoxService.getTranslatedPokemonDetails("mewtwo").getBody();
+        assert response != null;
+        Assertions.assertEquals(SHAKESPEARE_TRANSLATION, response.getDescription());
+    }
+
+
+    @Test
+    void givenValidPokemonName_ifPokemonMatchesReturnedPokemon_thenSucceed() {
+        PokemonDetailsResponse mockPokemonResponse = new PokemonDetailsResponse("rare", "mewtwo", POKEMON_DESCRIPTION, false);
+        doReturn(mockPokemonResponse).when(pokemonClient).getPokemonData("mewtwo");
+        PokemonDetailsResponse response = pokeDoxService.getPokemonDetails("mewtwo").getBody();
+        assert response != null;
+        Assertions.assertEquals("mewtwo", response.getName());
+    }
+
 }

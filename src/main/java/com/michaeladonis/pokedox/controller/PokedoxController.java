@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("pokemon")
@@ -24,12 +26,12 @@ public class PokedoxController {
     private final PokedoxService pokedoxService;
 
     @GetMapping("/{pokemonName}")
-    public ResponseEntity<PokemonDetailsResponse> getPokemon(@PathVariable String pokemonName) {
+    public ResponseEntity<PokemonDetailsResponse> getPokemon(@PathVariable("pokemonName") @NotBlank String pokemonName) {
         return pokedoxService.getPokemonDetails(pokemonName);
     }
 
     @GetMapping("translated/{pokemonName}")
-    public ResponseEntity<PokemonDetailsResponse> getPokemonAndTranslate(@PathVariable String pokemonName) {
+    public ResponseEntity<PokemonDetailsResponse> getPokemonAndTranslate(@PathVariable("pokemonName") @NotBlank String pokemonName) {
         return pokedoxService.getTranslatedPokemonDetails(pokemonName);
     }
 
